@@ -5,15 +5,7 @@ module.exports = {
         try {
             const index_of_commerces = await Commerce.findAll({ 
                 attributes: [
-                    'id', 
-                    'id_seller', 
-                    'name', 
-                    'category', 
-                    'zipcode', 
-                    'street', 
-                    'number', 
-                    'complement',
-                    'open_days'
+                    'id', 'id_seller', 'name', 'category', 'zipcode', 'street', 'number', 'complement','open_days'
                 ] 
             })
             
@@ -30,15 +22,7 @@ module.exports = {
                     id: request.params.id 
                 },
                 attributes: [
-                    'id', 
-                    'id_seller', 
-                    'name', 
-                    'category', 
-                    'zipcode', 
-                    'street', 
-                    'number', 
-                    'complement',
-                    'open_days'
+                    'id', 'id_seller', 'name', 'category', 'zipcode', 'street', 'number', 'complement','open_days'
                 ] 
             })
     
