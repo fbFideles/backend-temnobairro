@@ -59,21 +59,24 @@ module.exports = {
         }
     },
     update_a_commerce: async(request, response) => {
-        const deprecated_commerce = await Commerce.findOne( { where: request.params.id } )
+        try{
+            const deprecated_commerce = await Commerce.findOne( { where: request.params.id } )
 
-        const updated_commerce = {
-            name:  request.body.name            || deprecated_commerce.name,
-            category: request.body.category     || deprecated_commerce.category,
-            zipcode: request.body.zipcode       || deprecated_commerce.zipcode,
-            street: request.body.street         || deprecated_commerce.street,
-            number: request.body.number         || deprecated_commerce.number,
-            complement: request.body.complement || deprecated_commerce.complement,
-            open_days: request.body.open_days   || deprecated_commerce.open_days
+            const updated_commerce = {
+                name:  request.body.name            || deprecated_commerce.name,
+                category: request.body.category     || deprecated_commerce.category,
+                zipcode: request.body.zipcode       || deprecated_commerce.zipcode,
+                street: request.body.street         || deprecated_commerce.street,
+                number: request.body.number         || deprecated_commerce.number,
+                complement: request.body.complement || deprecated_commerce.complement,
+                open_days: request.body.open_days   || deprecated_commerce.open_days
+            }
+            await deprecated_commerce.update(updated_commerce)
+            return response.status(200).json({ message: 'Commerce updated', updated_commerce })
         }
-
-        await deprecated_commerce.update(updated_commerce)
-            .then(() => response.status(200).json({ message: 'Commerce updated', updated_commerce }))
-            .catch(error => response.status(500).json({ message: 'Could not update m8, sorry', error }))
+        catch(error) {
+            return response.status(500).json({ message: 'Could not update m8, sorry', error })
+        }
     },
     delete_a_commece: async (request, response) => {
         try {

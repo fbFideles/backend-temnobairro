@@ -47,20 +47,36 @@ module.exports = {
         })
     },
     update_a_seller: async(request, response) => {
-        const deprecated_seller = await Seller.findOne( { where: request.params.id } )
+        try {
+            const deprecated_seller = await Seller.findOne( { 
+                where: request.params.id,
+                attributes: ['id', 'name', 'email', 'phone', 'password'] 
+            })
+            
+            const updated_seller = {
+                name:  request.body.name  || deprecated_seller.name,
+                email: request.body.email || deprecated_seller.email,
+                phone: request.body.phone || deprecated_seller.phone,
+                password: request.body.password
+            }
+            await deprecated_seller.update(updated_seller, { 
+                where: { id: request.params.id } 
+            })
 
-        const updated_seller = {
-            name:  request.body.name  || deprecated_seller.name,
-            email: request.body.email || deprecated_seller.email,
-            phone: request.body.phone || deprecated_seller.phone,
-            //Não pode mudar a senha ainda
+            return response.status(200).json({ message: 'User updated', updated_seller })
+        }   
+        catch(error) {
+            response.status(500).json({ message: 'Could not update m8, sorry', error })
         }
-
-        await deprecated_seller.update(updated_seller)
-            .then(() => response.status(200).json({ message: 'User updated', updated_seller }))
-            .catch(error => response.status(500).json({ message: 'Could not update m8, sorry', error }))
     },
     delete_a_seller: async (request, response) => {
-        console.log(request.query)    
+        try {
+            await Seller.destroy({ where: { id: request.params.id } })
+            
+            return response.status(200).json({ message: 'Seller is gone' })
+        }
+        catch(error) {
+            return response.status(400).json({ message: 'Could not delete this one m8', error })
+        }
     }
 }
