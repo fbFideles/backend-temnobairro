@@ -5,7 +5,7 @@ const { Seller } = require('../models')
 module.exports = {
     index_all_sellers: async (request, response) => {
         try {
-            const index_of_sellers = await Seller.findAll({ attributes: ['id', 'name', 'email'] })
+            const index_of_sellers = await Seller.findAll({ attributes: ['id', 'name', 'email', 'phone'] })
             
             return response.status(200).json(index_of_sellers)
         } 
@@ -21,11 +21,15 @@ module.exports = {
                 },
                 attributes: ['id', 'name', 'email', 'phone']
             })
-    
-            return response.json(seller)
+
+            if (seller == null) {
+                throw new Error({ name: 'Seller not found', message: 'Could not find the seller with the requested ID.' })
+            }
+
+            return response.status(200).json(seller)
         }
         catch(error) {
-            response.status(500).json({ message: 'Could not fetch data', error })
+            return response.status(500).json({ message: 'Could not fetch data', error })
         }
     },
     create_a_seller: async (request, response) => {
@@ -61,16 +65,14 @@ module.exports = {
                 name:  request.body.name  || deprecated_seller.name,
                 email: request.body.email || deprecated_seller.email,
                 phone: request.body.phone || deprecated_seller.phone,
-                password: request.body.password
+                password: deprecated_seller.password
             }
-            await deprecated_seller.update(updated_seller, { 
-                where: { id: request.params.id } 
-            })
+            await deprecated_seller.update(updated_seller)
 
             return response.status(200).json({ message: 'User updated', updated_seller })
         }   
         catch(error) {
-            response.status(500).json({ message: 'Could not update m8, sorry', error })
+            return response.status(500).json({ message: 'Could not update m8, sorry', error })
         }
     },
     delete_a_seller: async (request, response) => {
