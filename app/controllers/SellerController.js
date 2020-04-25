@@ -49,9 +49,13 @@ module.exports = {
     update_a_seller: async(request, response) => {
         try {
             const deprecated_seller = await Seller.findOne( { 
-                where: request.params.id,
+                where: { id: request.params.id },
                 attributes: ['id', 'name', 'email', 'phone', 'password'] 
             })
+
+            if (!deprecated_seller) {
+                throw new Error({ name: 'Seller not found', message: 'Could not find the seller with the requested ID.' })
+            }
             
             const updated_seller = {
                 name:  request.body.name  || deprecated_seller.name,

@@ -44,7 +44,11 @@ module.exports = {
     },
     update_a_commerce: async(request, response) => {
         try{
-            const deprecated_commerce = await Commerce.findOne( { where: request.params.id } )
+            const deprecated_commerce = await Commerce.findOne( { where: { id: request.params.id } } )
+
+            if (!deprecated_commerce) {
+                throw new Error({ name: 'Commerce not found', message: 'Could not find the commerce with the requested ID.' });
+            }
 
             const updated_commerce = {
                 name:  request.body.name            || deprecated_commerce.name,
