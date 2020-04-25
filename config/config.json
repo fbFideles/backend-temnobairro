@@ -1,17 +1,9 @@
 {
-  "development_note": {
+  "development": {
     "username": "iocuaxlb",
     "password": "aX853NtP4JMWXisMsj9FbALTmfCAf3G6",
     "database": "iocuaxlb",
     "host": "drona.db.elephantsql.com",
-    "dialect": "postgres",
-    "operatorsAliases": 0
-  },
-  "development_desk": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "tem_no_bairro",
-    "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": 0
   },
