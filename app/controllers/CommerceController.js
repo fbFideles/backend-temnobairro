@@ -90,11 +90,20 @@ module.exports = {
                 open_days: request.body.open_days || deprecated_commerce.open_days
             }
 
-            await deprecated_commerce.update(updated_commerce)
+            const updated = await deprecated_commerce.update(updated_commerce);
 
-            return response.status(200).json({ message: 'commerce updated', updated_seller })
+            console.log(updated);
+
+            if (updated) {
+                return response.status(200).json({ message: 'commerce updated', updated_commerce })
+            }
+
+            throw new Error({ name: 'Error updating', message: 'Something went wrong when updating.' })
+
         }   
-        catch(error) {
+        catch (error) 
+        {
+            console.log(error);
             return response.status(500).json({ message: 'Could not update m8, sorry', error })
         }
     },
