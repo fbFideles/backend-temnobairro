@@ -13,5 +13,6 @@ app.use(bodyParser.json())
 
 app.use('/api/v1/seller', require('./routes/SellerRoutes'))
 app.use('/api/v1/commerce', require('./routes/CommerceRoutes'))
+app.use('/api/v1/login', require('./routes/LoginRoute'))
 
 module.exports = app

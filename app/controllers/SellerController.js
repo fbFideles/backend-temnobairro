@@ -6,7 +6,7 @@ module.exports = {
     index_all_sellers: async (request, response) => {
         try {
             const index_of_sellers = await Seller.findAll({ attributes: ['id', 'name', 'email', 'phone'] })
-            
+
             return response.status(200).json(index_of_sellers)
         } 
         catch(error) {
@@ -68,6 +68,8 @@ module.exports = {
                 password: deprecated_seller.password
             }
             await deprecated_seller.update(updated_seller)
+
+            updated_seller.password = undefined
 
             return response.status(200).json({ message: 'User updated', updated_seller })
         }   

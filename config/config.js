@@ -1,9 +1,9 @@
 module.exports ={
   development: {
-    username: "iocuaxlb",
-    password: "aX853NtP4JMWXisMsj9FbALTmfCAf3G6",
-    database: "iocuaxlb",
-    host: "drona.db.elephantsql.com",
+    username: "bbnqrvfq",
+    password: "C52w8KberGq3tIMMgIG3rv1_hIYzoVHa",
+    database: "bbnqrvfq",
+    host: "tuffi.db.elephantsql.com",
     dialect: "postgres",
     operatorsAliass: 0
   },
