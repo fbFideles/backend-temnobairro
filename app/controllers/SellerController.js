@@ -22,7 +22,7 @@ module.exports = {
                 attributes: ['id', 'name', 'email', 'phone']
             })
 
-            if (seller == null) {
+            if (seller === null) {
                 throw new Error({ name: 'Seller not found', message: 'Could not find the seller with the requested ID.' })
             }
 
@@ -31,24 +31,6 @@ module.exports = {
         catch(error) {
             return response.status(500).json({ message: 'Could not fetch data', error })
         }
-    },
-    create_a_seller: async (request, response) => {
-        await bcrypt.hash(request.body.password, 10, (error, hash) => {
-            if(error) {
-                return response.status(500).json({ message: 'Encryptation error!' })
-            }
-
-            const database_seller = {
-                name:     request.body.name,
-                email:    request.body.email,
-                phone:    request.body.phone,
-                password: hash
-            }
-
-            Seller.create(database_seller)
-                .then(() => response.status(200).json(database_seller))
-                .catch(error => response.status(500).json({ message: 'Could not create user m8', error }))
-        })
     },
     update_a_seller: async(request, response) => {
         try {
@@ -70,7 +52,6 @@ module.exports = {
             await deprecated_seller.update(updated_seller)
 
             updated_seller.password = undefined
-
             return response.status(200).json({ message: 'User updated', updated_seller })
         }   
         catch(error) {

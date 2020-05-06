@@ -80,36 +80,29 @@ module.exports = {
             }
             
             const updated_commerce = {
-                id_seller: request.body.id_seller || deprecated_commerce.id_seller,
-                name: request.body.name  || deprecated_seller.name,
-                category: request.body.category || deprecated_commerce.category,
-                zipcode: request.body.zipcode || deprecated_commerce.zipcode,
-                street: request.body.street || deprecated_commerce.street,
-                number: request.body.number || deprecated_commerce.number,
+                id_seller:  request.body.id_seller  || deprecated_commerce.id_seller,
+                name:       request.body.name       || deprecated_commerce.name,
+                category:   request.body.category   || deprecated_commerce.category,
+                zipcode:    request.body.zipcode    || deprecated_commerce.zipcode,
+                street:     request.body.street     || deprecated_commerce.street,
+                number:     request.body.number     || deprecated_commerce.number,
                 complement: request.body.complement || deprecated_commerce.complement,
-                open_days: request.body.open_days || deprecated_commerce.open_days
+                open_days:  request.body.open_days  || deprecated_commerce.open_days
             }
 
             const updated = await deprecated_commerce.update(updated_commerce);
 
-            console.log(updated);
-
-            if (updated) {
-                return response.status(200).json({ message: 'commerce updated', updated_commerce })
-            }
-
-            throw new Error({ name: 'Error updating', message: 'Something went wrong when updating.' })
-
+            if (updated) return response.status(200).json({ message: 'commerce updated', updated_commerce })
         }   
         catch (error) 
         {
-            console.log(error);
             return response.status(500).json({ message: 'Could not update m8, sorry', error })
         }
     },
     delete_a_commece: async (request, response) => {
         try {
             await Commerce.destroy({ where: { id: request.params.id } })
+            
             return response.status(200).json({ message: 'Commerce is gone' })
         }
         catch(error) {
