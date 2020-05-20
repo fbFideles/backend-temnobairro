@@ -1,14 +1,15 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { Seller } = require('../models')
+const status = require('http-status-codes');
  
 module.exports = {
   register: async (request, response) => {
-    if(!request.body.password) return response.status(500).json({ error: "password missing" })
+    if(!request.body.password) return response.status(status.INTERNAL_SERVER_ERROR).json({ error: "password missing" })
     
     await bcrypt.hash(request.body.password, 10, (error, hash) => {
         if(error) {
-            return response.status(500).json({ message: 'Encryptation error!' })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Encryptation error!' })
         }
 
         const database_seller = {
@@ -21,9 +22,9 @@ module.exports = {
         Seller.create(database_seller).then(() => {
           database_seller.password = undefined
               
-          response.status(200).json(database_seller)
+          response.status(status.CREATED).json(database_seller)
         })
-        .catch(error => response.status(500).json({ message: 'Could not create user m8', error }))
+        .catch(error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not create user m8', error }))
       })
   },
   authenticate: async (request, response) => {
@@ -36,11 +37,11 @@ module.exports = {
       })
       
       if(!seller) {
-        return response.status(400).json({ error: 'User not found' })
+        return response.status(status.BAD_REQUEST).json({ error: 'User not found' })
       }
         
       if(! await bcrypt.compare(password, seller.password)) {
-        return response.status(400).json({ error: 'Invalid password' })
+        return response.status(status.BAD_REQUEST).json({ error: 'Invalid password' })
       } 
 
       seller.password = undefined
@@ -49,10 +50,10 @@ module.exports = {
         expiresIn: 86400
       })
 
-      return response.status(200).json({ seller, token })
+      return response.status(status.OK).json({ seller, token })
     }
     catch(error) {
-      return response.status(400).json(error)
+      return response.status(status.INTERNAL_SERVER_ERROR).json(error)
     }
   }
 }

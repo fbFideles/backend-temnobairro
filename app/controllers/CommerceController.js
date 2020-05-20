@@ -1,4 +1,5 @@
 const { Commerce } = require('../models')
+const status = require('http-status-codes');
 
 module.exports = {
     index_all_commerces: async (request, response) => {
@@ -17,10 +18,10 @@ module.exports = {
                 ] 
             })
             
-            return response.status(200).json(index_of_commerces)
+            return response.status(status.OK).json(index_of_commerces)
         } 
         catch(error) {
-            return response.status(500).json({ message: 'Could not fetch data', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         } 
     },
     index_a_commerce: async (request, response) => {
@@ -42,20 +43,20 @@ module.exports = {
                 ] 
             })
     
-            return response.status(200).json(commerce)
+            return response.status(status.OK).json(commerce)
         }
         catch(error) {
-            response.status(500).json({ message: 'Could not fetch data', error })
+            response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         }
     },
     create_a_commerce: async (request, response) => {
         try {
             await Commerce.create(request.body)
 
-            return response.status(200).json(request.body)
+            return response.status(status.CREATED).json(request.body)
         }
         catch(error) {
-            return response.status(500).json({ message: 'Could not create commerce', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not create commerce', error })
         }
     },
     update_a_commerce: async(request, response) => {
@@ -92,21 +93,21 @@ module.exports = {
 
             const updated = await deprecated_commerce.update(updated_commerce);
 
-            if (updated) return response.status(200).json({ message: 'commerce updated', updated_commerce })
+            if (updated) return response.status(status.OK).json({ message: 'commerce updated', updated_commerce })
         }   
         catch (error) 
         {
-            return response.status(500).json({ message: 'Could not update m8, sorry', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not update m8, sorry', error })
         }
     },
     delete_a_commece: async (request, response) => {
         try {
             await Commerce.destroy({ where: { id: request.params.id } })
             
-            return response.status(200).json({ message: 'Commerce is gone' })
+            return response.status(status.GONE).json({ message: 'Commerce is gone' })
         }
         catch(error) {
-            return response.status(500).json({ message: 'Could not delete this one m8', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not delete this one m8', error })
         }
    }
 }

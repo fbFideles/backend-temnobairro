@@ -1,16 +1,17 @@
 const bcrypt = require('bcrypt')
-
 const { Seller } = require('../models')
+
+const status = require('http-status-codes');
 
 module.exports = {
     index_all_sellers: async (request, response) => {
         try {
             const index_of_sellers = await Seller.findAll({ attributes: ['id', 'name', 'email', 'phone'] })
 
-            return response.status(200).json(index_of_sellers)
+            return response.status(status.OK).json(index_of_sellers)
         } 
         catch(error) {
-            return response.status(500).json({ message: 'Could not fetch data', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         } 
     },
     index_a_seller: async (request, response) => {
@@ -26,10 +27,10 @@ module.exports = {
                 throw new Error({ name: 'Seller not found', message: 'Could not find the seller with the requested ID.' })
             }
 
-            return response.status(200).json(seller)
+            return response.status(status.OK).json(seller)
         }
         catch(error) {
-            return response.status(500).json({ message: 'Could not fetch data', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         }
     },
     update_a_seller: async(request, response) => {
@@ -52,20 +53,20 @@ module.exports = {
             await deprecated_seller.update(updated_seller)
 
             updated_seller.password = undefined
-            return response.status(200).json({ message: 'User updated', updated_seller })
+            return response.status(status.OK).json({ message: 'User updated', updated_seller })
         }   
         catch(error) {
-            return response.status(500).json({ message: 'Could not update m8, sorry', error })
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not update m8, sorry', error })
         }
     },
     delete_a_seller: async (request, response) => {
         try {
             await Seller.destroy({ where: { id: request.params.id } })
             
-            return response.status(200).json({ message: 'Seller is gone' })
+            return response.status(status.GONE).json({ message: 'Seller is gone' })
         }
         catch(error) {
-            return response.status(400).json({ message: 'Could not delete this one m8', error })
+            return response.status(status.BAD_REQUEST).json({ message: 'Could not delete this one m8', error })
         }
     }
 }
