@@ -5,7 +5,9 @@ const status = require('http-status-codes');
  
 module.exports = {
   register: async (request, response) => {
-    if(!request.body.password) return response.status(status.INTERNAL_SERVER_ERROR).json({ error: "password missing" })
+    if(!request.body.password) {
+        return response.status(status.INTERNAL_SERVER_ERROR).json({ error: "password missing" })
+    }
     
     await bcrypt.hash(request.body.password, 10, (error, hash) => {
         if(error) {
@@ -22,9 +24,17 @@ module.exports = {
         Seller.create(database_seller).then(() => {
           database_seller.password = undefined
               
-          response.status(status.CREATED).json(database_seller)
+          return response.status(status.CREATED).json(database_seller)
         })
-        .catch(error => response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not create user m8', error }))
+        .catch((error) => {
+            const [ ValidationErrorItem ] = error.errors
+            
+            if(ValidationErrorItem.type === 'unique violation') {
+                return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'User already exists' })
+            } else {
+                return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not create user m8', error })    
+            }
+        })
       })
   },
   authenticate: async (request, response) => {

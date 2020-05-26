@@ -4,17 +4,14 @@ const status = require('http-status-codes');
 module.exports = {
     index_all_commerces: async (request, response) => {
         try {
-            const index_of_commerces = await Commerce.findAll({ 
+            const index_of_commerces = await Commerce.findAll({
                 attributes: [
-                    'id', 
-                    'id_seller', 
-                    'name', 
-                    'category', 
-                    'zipcode', 
-                    'street', 
-                    'number', 
-                    'complement',
-                    'open_days'
+                    'id', 'id_seller', 
+                    'name', 'category', 
+                    'zipcode', 'street',
+                    'city', 'state',     
+                    'number', 'neighborhood',
+                    'complement', 'open_days'
                 ] 
             })
             
@@ -31,15 +28,12 @@ module.exports = {
                     id: request.params.id 
                 },
                 attributes: [
-                    'id', 
-                    'id_seller', 
-                    'name', 
-                    'category', 
-                    'zipcode', 
-                    'street', 
-                    'number', 
-                    'complement',
-                    'open_days'
+                    'id', 'id_seller', 
+                    'name', 'category', 
+                    'zipcode', 'street',
+                    'city', 'state',     
+                    'number', 'neighborhood',
+                    'complement', 'open_days'
                 ] 
             })
     
@@ -49,8 +43,30 @@ module.exports = {
             response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         }
     },
+    index_commerces_by_neighborhood: async (request, response) => {
+        try {
+            request.params.neighborhood = request.params.neighborhood.toLowerCase()
+            const index_of_commerces = await Commerce.findAll({
+                where: {
+                    neighborhood: request.params.neighborhood
+                },
+                attributes: [
+                    'id', 'id_seller', 
+                    'name', 'category', 
+                    'zipcode', 'street',     
+                    'number', 'neighborhood',
+                    'complement', 'open_days'
+                ] 
+            })
+            return response.status(status.OK).json(index_of_commerces)
+        } 
+        catch(error) {
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
+        }
+    }, 
     create_a_commerce: async (request, response) => {
         try {
+            request.body.neighborhood = request.body.neighborhood.toLowerCase()
             await Commerce.create(request.body)
 
             return response.status(status.CREATED).json(request.body)
@@ -64,15 +80,11 @@ module.exports = {
             const deprecated_commerce = await Commerce.findOne( { 
                 where: { id: request.params.id },
                 attributes: [
-                    'id', 
-                    'id_seller', 
-                    'name', 
-                    'category', 
-                    'zipcode', 
-                    'street', 
-                    'number', 
-                    'complement',
-                    'open_days'
+                    'id', 'id_seller', 
+                    'name', 'category', 
+                    'zipcode', 'street',     
+                    'number', 'neighborhood',
+                    'complement', 'open_days'
                 ] 
             })
 
@@ -81,14 +93,15 @@ module.exports = {
             }
             
             const updated_commerce = {
-                id_seller:  request.body.id_seller  || deprecated_commerce.id_seller,
-                name:       request.body.name       || deprecated_commerce.name,
-                category:   request.body.category   || deprecated_commerce.category,
-                zipcode:    request.body.zipcode    || deprecated_commerce.zipcode,
-                street:     request.body.street     || deprecated_commerce.street,
-                number:     request.body.number     || deprecated_commerce.number,
-                complement: request.body.complement || deprecated_commerce.complement,
-                open_days:  request.body.open_days  || deprecated_commerce.open_days
+                id_seller:    request.body.id_seller    || deprecated_commerce.id_seller,
+                name:         request.body.name         || deprecated_commerce.name,
+                category:     request.body.category     || deprecated_commerce.category,
+                zipcode:      request.body.zipcode      || deprecated_commerce.zipcode,
+                street:       request.body.street       || deprecated_commerce.street,
+                number:       request.body.number       || deprecated_commerce.number,
+                neighborhood: request.body.neighborhood || deprecated_commerce.neighborhood, 
+                complement:   request.body.complement   || deprecated_commerce.complement,
+                open_days:    request.body.open_days    || deprecated_commerce.open_days
             }
 
             const updated = await deprecated_commerce.update(updated_commerce);

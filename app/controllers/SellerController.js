@@ -1,12 +1,27 @@
-const bcrypt = require('bcrypt')
-const { Seller } = require('../models')
+const { Seller, Commerce } = require('../models')
 
 const status = require('http-status-codes');
 
 module.exports = {
     index_all_sellers: async (request, response) => {
         try {
-            const index_of_sellers = await Seller.findAll({ attributes: ['id', 'name', 'email', 'phone'] })
+            const index_of_sellers = await Seller.findAll({
+                attributes: [
+                    'id', 'name', 
+                    'email', 'phone'
+                ],
+                include: {
+                    model: Commerce,
+                    attributes: [
+                        'id', 
+                        'name', 'category', 
+                        'zipcode', 'street',
+                        'city', 'state',    
+                        'number', 'neighborhood',
+                        'complement', 'open_days'
+                    ]
+                },
+            })
 
             return response.status(status.OK).json(index_of_sellers)
         } 
@@ -20,7 +35,21 @@ module.exports = {
                 where: {
                     id: request.params.id
                 },
-                attributes: ['id', 'name', 'email', 'phone']
+                attributes: [
+                    'id', 'name', 
+                    'email', 'phone'
+                ],
+                include: {
+                    model: Commerce,
+                    attributes: [
+                        'id', 
+                        'name', 'category', 
+                        'zipcode', 'street',
+                        'city', 'state',     
+                        'number', 'neighborhood',
+                        'complement', 'open_days'
+                    ]
+                },
             })
 
             if (seller === null) {

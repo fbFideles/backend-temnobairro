@@ -28,15 +28,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
+      neighborhood: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      city: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      state: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
       open_days: {
         allowNull: false,
         type: DataTypes.ARRAY(DataTypes.STRING)
       }
 	})
 
-  Commerce.associate = (models) => {
-    Commerce.belongsTo(models.Seller, { foreignKey: 'id_seller', as: 'seller' })
-  }
+    Commerce.associate = models => {
+        Commerce.belongsTo(models.Seller)
+    }
 
 	return Commerce
 }
