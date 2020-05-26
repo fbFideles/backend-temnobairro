@@ -53,7 +53,8 @@ module.exports = {
                 attributes: [
                     'id', 'id_seller', 
                     'name', 'category', 
-                    'zipcode', 'street',     
+                    'zipcode', 'street',
+                    'city', 'state',     
                     'number', 'neighborhood',
                     'complement', 'open_days'
                 ] 
