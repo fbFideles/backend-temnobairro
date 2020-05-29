@@ -41,7 +41,7 @@ module.exports = {
     const { email, password } = request.body
 
     try {
-      const seller = await Seller.findOne({ where: email })
+      const seller = await Seller.findOne({ where: { email } })
       
       if(!seller) {
         return response.status(status.BAD_REQUEST).json({ error: 'User not found' })
