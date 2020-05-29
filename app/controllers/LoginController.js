@@ -41,10 +41,7 @@ module.exports = {
     const { email, password } = request.body
 
     try {
-      const seller = await Seller.findOne({
-        where: { email },
-        attributes: ['id', 'name', 'email', 'phone', 'password']
-      })
+      const seller = await Seller.findOne({ where: email })
       
       if(!seller) {
         return response.status(status.BAD_REQUEST).json({ error: 'User not found' })
@@ -56,7 +53,7 @@ module.exports = {
 
       seller.password = undefined
 
-      const token = jwt.sign({ id: seller.id }, "5bf40166a4e755b78b65c778d22026e4", {
+      const token = jwt.sign({ id: seller.id }, process.env.AUTH_HASH, {
         expiresIn: 86400
       })
 
