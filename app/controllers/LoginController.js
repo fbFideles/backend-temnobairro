@@ -56,7 +56,7 @@ module.exports = {
 
       seller.password = undefined
 
-      const token = jwt.sign({ id: seller.id }, process.env, {
+      const token = jwt.sign({ id: seller.id }, process.env.AUTH_HASH, {
         expiresIn: 86400
       })
 
