@@ -9,6 +9,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.addColumn('Commerces', 'state')
+    return queryInterface.removeColumn('Commerces', 'state')
   }
 };

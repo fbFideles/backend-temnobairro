@@ -42,7 +42,7 @@ module.exports = {
 
     try {
       const seller = await Seller.findOne({
-        where: { email },
+        where: { email }, 
         attributes: ['id', 'name', 'email', 'phone', 'password']
       })
       
