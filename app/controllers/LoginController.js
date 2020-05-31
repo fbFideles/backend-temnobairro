@@ -21,7 +21,7 @@ module.exports = {
             password: hash
         }
 
-        Seller.create(database_seller).then(() => {
+        await Seller.create(database_seller).then(() => {
           database_seller.password = undefined
     
           return response.status(status.CREATED).json(database_seller)
@@ -56,7 +56,7 @@ module.exports = {
 
       seller.password = undefined
 
-      const token = jwt.sign({ id: seller.id }, '5bf40166a4e755b78b65c778d22026e4', {
+      const token = jwt.sign({ id: seller.id }, process.env.AUTH_HASH, {
         expiresIn: 86400
       })
 
