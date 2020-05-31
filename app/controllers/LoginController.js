@@ -21,7 +21,7 @@ module.exports = {
             password: hash
         }
 
-        await Seller.create(database_seller).then(() => {
+        Seller.create(database_seller).then(() => {
           database_seller.password = undefined
     
           return response.status(status.CREATED).json(database_seller)
