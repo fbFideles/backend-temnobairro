@@ -5,6 +5,8 @@ const morgan = require('morgan');
 
 const app = express();
 
+require('dotenv/config')
+
 app.use(cors());
 app.use(morgan('dev'));
 

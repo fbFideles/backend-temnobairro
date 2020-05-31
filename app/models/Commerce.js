@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING
       },
+      open_hours: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
       open_days: {
         allowNull: false,
         type: DataTypes.ARRAY(DataTypes.STRING)

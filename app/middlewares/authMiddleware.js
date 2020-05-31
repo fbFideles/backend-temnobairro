@@ -20,7 +20,7 @@ module.exports = (request, response, next) => {
     return response.status(status.UNAUTHORIZED).json({ error: "Token malformatted" })
   }
 
-  jwt.verify(token, process.env.AUTH_HASH, (error, decoded) => {
+  jwt.verify(token, '5bf40166a4e755b78b65c778d22026e4', (error, decoded) => {
     if(error) {
       return response.status(status.UNAUTHORIZED).json({ error: "Invalid token" })
     }

@@ -11,7 +11,8 @@ module.exports = {
                     'zipcode', 'street',
                     'city', 'state',     
                     'number', 'neighborhood',
-                    'complement', 'open_days'
+                    'complement', 'open_hours',
+                    'open_days'
                 ] 
             })
             
@@ -33,7 +34,8 @@ module.exports = {
                     'zipcode', 'street',
                     'city', 'state',     
                     'number', 'neighborhood',
-                    'complement', 'open_days'
+                    'complement', 'open_hours',
+                    'open_days'
                 ] 
             })
     
@@ -56,7 +58,9 @@ module.exports = {
                     'zipcode', 'street',
                     'city', 'state',     
                     'number', 'neighborhood',
-                    'complement', 'open_days'
+                    'complement', 'open_hours',
+                    'open_days',
+                    
                 ] 
             })
             return response.status(status.OK).json(index_of_commerces)

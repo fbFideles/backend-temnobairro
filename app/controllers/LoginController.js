@@ -23,7 +23,7 @@ module.exports = {
 
         Seller.create(database_seller).then(() => {
           database_seller.password = undefined
-              
+    
           return response.status(status.CREATED).json(database_seller)
         })
         .catch((error) => {
@@ -56,12 +56,12 @@ module.exports = {
 
       seller.password = undefined
 
-      const token = jwt.sign({ id: seller.id }, process.env.AUTH_HASH, {
+      const token = jwt.sign({ id: seller.id }, '5bf40166a4e755b78b65c778d22026e4', {
         expiresIn: 86400
       })
 
       return response.status(status.OK).json({ seller, token })
-    }
+    } 
     catch(error) {
       return response.status(status.INTERNAL_SERVER_ERROR).json(error)
     }
