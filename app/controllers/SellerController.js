@@ -22,7 +22,6 @@ module.exports = {
                     ]
                 },
             })
-
             return response.status(status.OK).json(index_of_sellers)
         } 
         catch(error) {
@@ -48,7 +47,7 @@ module.exports = {
                         'city', 'state',     
                         'number', 'neighborhood',
                         'complement', 'open_days'
-                    ]
+                    ],
                 },
             })
 

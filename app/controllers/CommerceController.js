@@ -1,4 +1,4 @@
-const { Commerce } = require('../models')
+const { Commerce, Seller } = require('../models')
 const status = require('http-status-codes');
 
 module.exports = {
@@ -13,9 +13,12 @@ module.exports = {
                     'number', 'neighborhood',
                     'complement', 'open_hours',
                     'open_days'
-                ] 
+                ],
+                include: {
+                  model: Seller,
+                  attributes: ['name', 'email', 'phone']
+                }
             })
-            
             return response.status(status.OK).json(index_of_commerces)
         } 
         catch(error) {
@@ -36,9 +39,12 @@ module.exports = {
                     'number', 'neighborhood',
                     'complement', 'open_hours',
                     'open_days'
-                ] 
+                ],
+                include: {
+                  model: Seller,
+                  attributes: ['name', 'email', 'phone']
+                }
             })
-    
             return response.status(status.OK).json(commerce)
         }
         catch(error) {
@@ -59,9 +65,12 @@ module.exports = {
                     'city', 'state',     
                     'number', 'neighborhood',
                     'complement', 'open_hours',
-                    'open_days',
-                    
-                ] 
+                    'open_days',  
+                ],
+                include: {
+                  model: Seller,
+                  attributes: ['name', 'email', 'phone']
+                }
             })
             return response.status(status.OK).json(index_of_commerces)
         } 

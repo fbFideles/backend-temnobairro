@@ -1,16 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const cors = require('cors');
-const morgan = require('morgan');
+const cors = require('cors')
+const morgan = require('morgan')
+
+const env = process.env.NODE_ENV || 'development'
 
 const app = express();
 
-if(process.env.NODE_ENV === 'development') {
-  require('dotenv/config')
+if(env === 'development') {
+  require('dotenv').config()  
 }
-
-app.use(cors());
-app.use(morgan('dev'));
+  
+app.use(cors())
+app.use(morgan('dev'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())

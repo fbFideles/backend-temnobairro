@@ -51,7 +51,9 @@ module.exports = (sequelize, DataTypes) => {
 	})
 
     Commerce.associate = models => {
-        Commerce.belongsTo(models.Seller)
+        Commerce.belongsTo(models.Seller, {
+          foreignKey: 'id_seller'
+        })
     }
 
 	return Commerce
