@@ -80,7 +80,6 @@ module.exports = {
     }, 
     index_commerces_by_city: async (request, response) => {
         try {
-            request.params.city = request.params.city.toLowerCase()
             const index_of_commerces = await Commerce.findAll({
                 where: {
                     city: request.params.city
@@ -102,6 +101,7 @@ module.exports = {
             return response.status(status.OK).json(index_of_commerces)
         } 
         catch(error) {
+            console.log(error);
             return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         }
     }, 
