@@ -78,6 +78,33 @@ module.exports = {
             return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
         }
     }, 
+    index_commerces_by_city: async (request, response) => {
+        try {
+            request.params.city = request.params.city.toLowerCase()
+            const index_of_commerces = await Commerce.findAll({
+                where: {
+                    city: request.params.city
+                },
+                attributes: [
+                    'id', 'id_seller', 
+                    'name', 'category', 
+                    'zipcode', 'street',
+                    'city', 'state',     
+                    'number', 'neighborhood',
+                    'complement', 'open_hours',
+                    'open_days',  
+                ],
+                include: {
+                  model: Seller,
+                  attributes: ['name', 'email', 'phone']
+                }
+            })
+            return response.status(status.OK).json(index_of_commerces)
+        } 
+        catch(error) {
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ message: 'Could not fetch data', error })
+        }
+    }, 
     create_a_commerce: async (request, response) => {
         try {
             request.body.neighborhood = request.body.neighborhood.toLowerCase()
