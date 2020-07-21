@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Commerces', {
+    return queryInterface.createTable("Commerces", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       id_seller: {
         allowNull: false,
@@ -39,7 +39,7 @@ module.exports = {
       },
       open_days: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.ARRAY(Sequelize.STRING),
       },
       createdAt: {
         allowNull: false,
@@ -49,10 +49,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    })
+    });
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('Commerces')
-  }
+    return queryInterface.dropTable("Commerces");
+  },
 };
