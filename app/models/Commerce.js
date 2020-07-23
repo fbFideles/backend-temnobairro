@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Commerce = sequelize.define("Commerce", {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     id_seller: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -53,6 +59,11 @@ module.exports = (sequelize, DataTypes) => {
   Commerce.associate = (models) => {
     Commerce.belongsTo(models.Seller, {
       foreignKey: "id_seller",
+    });
+
+    Commerce.hasMany(models.Product, {
+      sourceKey: "id",
+      foreignKey: "id_commerce",
     });
   };
 

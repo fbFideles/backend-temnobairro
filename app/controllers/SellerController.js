@@ -7,22 +7,27 @@ module.exports = {
     try {
       const index_of_sellers = await Seller.findAll({
         attributes: ["id", "name", "email", "phone"],
-        include: {
-          model: Commerce,
-          attributes: [
-            "id",
-            "name",
-            "category",
-            "zipcode",
-            "street",
-            "city",
-            "state",
-            "number",
-            "neighborhood",
-            "complement",
-            "open_days",
-          ],
-        },
+        include: [
+          {
+            model: Commerce,
+            attributes: [
+              "name",
+              "category",
+              "zipcode",
+              "street",
+              "city",
+              "state",
+              "number",
+              "neighborhood",
+              "complement",
+              "open_days",
+            ],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
       return response.status(status.OK).json(index_of_sellers);
     } catch (error) {
@@ -38,22 +43,27 @@ module.exports = {
           id: request.params.id,
         },
         attributes: ["id", "name", "email", "phone"],
-        include: {
-          model: Commerce,
-          attributes: [
-            "id",
-            "name",
-            "category",
-            "zipcode",
-            "street",
-            "city",
-            "state",
-            "number",
-            "neighborhood",
-            "complement",
-            "open_days",
-          ],
-        },
+        include: [
+          {
+            model: Commerce,
+            attributes: [
+              "name",
+              "category",
+              "zipcode",
+              "street",
+              "city",
+              "state",
+              "number",
+              "neighborhood",
+              "complement",
+              "open_days",
+            ],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
 
       if (seller === null) {
@@ -90,9 +100,11 @@ module.exports = {
         phone: request.body.phone || deprecated_seller.phone,
         password: deprecated_seller.password,
       };
+
       await deprecated_seller.update(updated_seller);
 
       updated_seller.password = undefined;
+
       return response
         .status(status.OK)
         .json({ message: "User updated", updated_seller });

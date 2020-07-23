@@ -20,10 +20,16 @@ module.exports = {
           "open_hours",
           "open_days",
         ],
-        include: {
-          model: Seller,
-          attributes: ["name", "email", "phone"],
-        },
+        include: [
+          {
+            model: Seller,
+            attributes: ["name", "email", "phone"],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
       return response.status(status.OK).json(index_of_commerces);
     } catch (error) {
@@ -53,10 +59,16 @@ module.exports = {
           "open_hours",
           "open_days",
         ],
-        include: {
-          model: Seller,
-          attributes: ["name", "email", "phone"],
-        },
+        include: [
+          {
+            model: Seller,
+            attributes: ["name", "email", "phone"],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
       return response.status(status.OK).json(commerce);
     } catch (error) {
@@ -87,10 +99,16 @@ module.exports = {
           "open_hours",
           "open_days",
         ],
-        include: {
-          model: Seller,
-          attributes: ["name", "email", "phone"],
-        },
+        include: [
+          {
+            model: Seller,
+            attributes: ["name", "email", "phone"],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
       return response.status(status.OK).json(index_of_commerces);
     } catch (error) {
@@ -121,10 +139,16 @@ module.exports = {
           "open_hours",
           "open_days",
         ],
-        include: {
-          model: Seller,
-          attributes: ["name", "email", "phone"],
-        },
+        include: [
+          {
+            model: Seller,
+            attributes: ["name", "email", "phone"],
+          },
+          {
+            model: Product,
+            attributes: ["name", "available"],
+          },
+        ],
       });
       return response.status(status.OK).json(index_of_commerces);
     } catch (error) {
